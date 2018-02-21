@@ -1,0 +1,7 @@
+INCLUDE_DIRECTORIES(
+    ${CMAKE_SOURCE_DIR}/src/common
+    ${CMAKE_SOURCE_DIR}/src/common/server
+)
+
+FILE(GLOB_RECURSE SOURCE_COMMON *.h *.cpp *.cc)
+ADD_LIBRARY(EtCommon STATIC ${SOURCE_COMMON})
