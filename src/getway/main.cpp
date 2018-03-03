@@ -1,7 +1,7 @@
 #include "../common/server/EtServerBase.h"
 
 int main(int argc, char* argv[]) {
-    std::string addr = "0.0.0.0:9099";
+    std::string addr = "0.0.0.0:2819";
     int thread_num = 4;
     evpp::EventLoop loop;
 
