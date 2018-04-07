@@ -11,11 +11,13 @@ namespace ET {
     public:
         CEtServerBase();
         void create(evpp::EventLoop *loop, const std::string &listen_addr, const std::string &name, uint32_t threadNum);
+        const evpp::EventLoop *getLoop() const;
         virtual ~CEtServerBase();
     private:
         int m_serverId;
         std::set<evpp::TCPConnPtr> m_connectList;
         std::shared_ptr<evpp::TCPServer> m_server;
+        evpp::EventLoop *m_loop;
     };
 }
 

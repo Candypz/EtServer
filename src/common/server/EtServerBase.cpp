@@ -4,7 +4,7 @@
 using namespace ET;
 
 CEtServerBase::CEtServerBase() {
-
+    m_loop = nullptr;
 }
 
 CEtServerBase::~CEtServerBase() {
@@ -28,6 +28,7 @@ void CEtServerBase::create(evpp::EventLoop *loop, const std::string &listen_addr
     FLAGS_stop_logging_if_full_disk = true;
 
     m_server = std::shared_ptr<evpp::TCPServer>(new evpp::TCPServer(loop, listen_addr, name, threadNum));
+    m_loop = m_loop;
     m_server->SetConnectionCallback([&](const evpp::TCPConnPtr& conn) {
         if (conn->IsConnected()) {
             m_connectList.insert(conn);
@@ -56,4 +57,8 @@ void CEtServerBase::create(evpp::EventLoop *loop, const std::string &listen_addr
     });
     m_server->Init();
     m_server->Start();
+}
+
+const evpp::EventLoop *CEtServerBase::getLoop() const {
+    return m_loop;
 }

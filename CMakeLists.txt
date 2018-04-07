@@ -24,11 +24,33 @@ ELSE()
     SET(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib/")
 ENDIF()
 
-LINK_LIBRARIES("/usr/local/lib/libevent.a")
-LINK_LIBRARIES("/usr/local/lib/libevpp.so")
-LINK_LIBRARIES("/usr/local/lib/libprotobuf.a")
-LINK_LIBRARIES("/usr/local/lib/libglog.a")
-LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib/)
+IF (WIN32)
+    SET(VcpkgRoot ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET})
+    INCLUDE_DIRECTORIES(${VcpkgRoot}/include/
+                        ${PROJECT_SOURCE_DIR}
+                        ${PROJECT_SOURCE_DIR}/3rdparty/wininclude)
+
+    # On windows, Debug mode
+    LINK_DIRECTORIES(${VcpkgRoot}/debug/lib ${VcpkgRoot}/debug/lib/manual-link)
+
+    # On Windows, Release mode
+    # LINK_DIRECTORIES(${VcpkgRoot}/lib ${VcpkgRoot}/lib/manual-link)
+
+	set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
+ELSE()
+    LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib/)
+ENDIF()
+
+IF (NOT WIN32)
+    LINK_LIBRARIES("/usr/local/lib/libevent.a")
+    LINK_LIBRARIES("/usr/local/lib/libevpp.so")
+    LINK_LIBRARIES("/usr/local/lib/libprotobuf.a")
+    LINK_LIBRARIES("/usr/local/lib/libglog.a")
+ELSE()
+    LINK_LIBRARIES(${VcpkgRoot}/debug/lib/glog.lib)
+	LINK_LIBRARIES(${VcpkgRoot}/debug/lib/libprotobufd.lib)
+ENDIF()
+
 INCLUDE_DIRECTORIES(/usr/local/include/)
 INCLUDE_DIRECTORIES(${PROJECT_ROOT_PATH}/)
 INCLUDE_DIRECTORIES(${PROJECT_ROOT_PATH}/src)
