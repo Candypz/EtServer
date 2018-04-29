@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+//Req 发
+//Res 收
+message SMessage {
+    bytes content = 1;
+    int32 cmd = 2;
+    int32 sn = 3;
+}
